@@ -299,7 +299,7 @@
   }
 
   // ================================================================
-  //  BOOT
+  //  BOOT — optimized: DPR=1, scroll-driven + slow ambient tick
   // ================================================================
   function init() {
     const canvas = document.getElementById('journey-canvas');
@@ -307,51 +307,69 @@
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let ambientPhase = 0;
-    let lastTime = performance.now();
-    let rafId;
+    let ambientTimer = null;
+    let currentProgress = 0;
+    let needsDraw = true;
 
     calcWaypoints();
 
     function setup() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
+      // DPR=1 — decorative element, retina is wasteful here
+      canvas.width = rect.width;
+      canvas.height = rect.height;
       const ctx = canvas.getContext('2d');
-      ctx.scale(dpr, dpr);
       return { ctx, w: rect.width, h: rect.height };
     }
 
-    function loop(time) {
-      const dt = Math.min((time - lastTime) / 1000, 0.1);
-      lastTime = time;
-
-      if (!reduceMotion) {
-        ambientPhase = (ambientPhase + dt * 0.4) % 1;
-      }
-
+    function drawFrame() {
+      if (!needsDraw) return;
       const { ctx, w, h } = setup();
-
-      // Scroll progress
-      const scrollY = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? Math.max(0, Math.min(1, scrollY / maxScroll)) : 0;
-
-      draw(ctx, w, h, progress, ambientPhase);
-      rafId = requestAnimationFrame(loop);
+      draw(ctx, w, h, currentProgress, ambientPhase);
+      needsDraw = false;
     }
 
-    rafId = requestAnimationFrame(loop);
+    // Scroll-driven progress (instant redraw)
+    function onScroll() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.max(0, Math.min(1, window.scrollY / maxScroll)) : 0;
+      if (progress !== currentProgress) {
+        currentProgress = progress;
+        needsDraw = true;
+        drawFrame();
+      }
+    }
 
-    // Recalculate waypoints on resize
+    // Ambient dashed line march (slow tick, ~4 updates/sec)
+    function startAmbient() {
+      if (reduceMotion) return;
+      ambientTimer = setInterval(() => {
+        ambientPhase = (ambientPhase + 0.1) % 1;
+        needsDraw = true;
+        drawFrame();
+      }, 250);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Recalculate waypoints on resize (debounced)
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(calcWaypoints, 200);
+      resizeTimer = setTimeout(() => {
+        calcWaypoints();
+        needsDraw = true;
+        drawFrame();
+      }, 300);
     });
 
+    // Initial draw
+    onScroll();
+    startAmbient();
+
+    // Cleanup
     window.addEventListener('beforeunload', () => {
-      if (rafId) cancelAnimationFrame(rafId);
+      if (ambientTimer) clearInterval(ambientTimer);
     });
   }
 
