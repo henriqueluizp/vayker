@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "animejs": "^4.5.0",
     "astro": "^7.1.6",
     "tailwindcss": "^4.3.3"
   },

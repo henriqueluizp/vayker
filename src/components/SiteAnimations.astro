@@ -1,0 +1,240 @@
+---
+// Site-wide anime.js v4 animations: particles, pulses, micro-interactions
+---
+
+<script>
+  import { animate, utils } from 'animejs';
+  const { random } = utils;
+
+  // ================================================================
+  //  1. FLOATING AURORA PARTICLES
+  // ================================================================
+  function createParticles() {
+    const container = document.createElement('div');
+    container.className = 'aurora-particles';
+    container.setAttribute('aria-hidden', 'true');
+    Object.assign(container.style, {
+      position: 'fixed',
+      inset: '0',
+      zIndex: '0',
+      pointerEvents: 'none',
+      overflow: 'hidden',
+    });
+    document.body.prepend(container);
+
+    const colors = ['#8b5cf6', '#6366f1', '#22d3ee', '#a78bfa'];
+    const particleCount = 16;
+
+    for (let i = 0; i < particleCount; i++) {
+      const dot = document.createElement('span');
+      const size = random(2, 5);
+      const color = colors[random(0, colors.length - 1)];
+      const startX = random(5, 95);
+      const startY = random(10, 90);
+
+      Object.assign(dot.style, {
+        position: 'absolute',
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: '50%',
+        background: color,
+        left: `${startX}%`,
+        top: `${startY}%`,
+        filter: `blur(${size > 3 ? '1px' : '0px'})`,
+      });
+
+      container.appendChild(dot);
+
+      const driftX = random(-80, 80);
+      const driftY = random(-60, 60);
+
+      // v4: keyframes array syntax
+      animate(dot, {
+        translateX: [
+          { to: driftX * 0.5, duration: random(8000, 14000) },
+          { to: -driftX * 0.3, duration: random(6000, 12000) },
+          { to: driftX * 0.4, duration: random(8000, 14000) },
+        ],
+        translateY: [
+          { to: driftY * 0.6, duration: random(7000, 13000) },
+          { to: -driftY * 0.4, duration: random(6000, 10000) },
+          { to: driftY * 0.5, duration: random(8000, 15000) },
+        ],
+        opacity: [
+          { to: random(0.15, 0.4), duration: random(2000, 4000) },
+          { to: random(0.08, 0.25), duration: random(3000, 6000) },
+          { to: random(0.12, 0.35), duration: random(3000, 5000) },
+          { to: 0, duration: random(2000, 4000) },
+        ],
+        ease: 'inOutSine',
+        loop: true,
+        delay: random(0, 6000),
+        autoplay: true,
+      });
+    }
+  }
+
+  // ================================================================
+  //  2. HERO LOGO — slow breathing pulse
+  // ================================================================
+  function animateHeroLogo() {
+    const logo = document.querySelector('.hero-logo-ring');
+    if (!logo) return;
+
+    animate(logo, {
+      scale: [1, 1.06],
+      duration: 3200,
+      alternate: true,
+      loop: true,
+      ease: 'inOutSine',
+      autoplay: true,
+    });
+
+    // Subtle rotation on the glow
+    const glow = document.querySelector('.hero-logo-glow');
+    if (glow) {
+      animate(glow, {
+        rotate: [0, 360],
+        duration: 28000,
+        loop: true,
+        ease: 'linear',
+        autoplay: true,
+      });
+    }
+  }
+
+  // ================================================================
+  //  3. ENHANCED SCROLL REVEALS
+  // ================================================================
+  function enhanceScrollReveals() {
+    const reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const delayClass = Array.from(el.classList).find((c) =>
+              c.startsWith('reveal-delay-')
+            );
+            const delayNum = delayClass ? parseInt(delayClass.match(/\d+/)?.[0] || '0') : 0;
+
+            animate(el, {
+              translateY: [28, 0],
+              opacity: [0, 1],
+              duration: 700,
+              delay: delayNum * 80,
+              ease: 'outCubic',
+              autoplay: true,
+            });
+
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    reveals.forEach((el) => observer.observe(el));
+  }
+
+  // ================================================================
+  //  4. FEATURE CARD — icon glow pulse on hover
+  // ================================================================
+  function animateFeatureCards() {
+    document.querySelectorAll('.feature-icon-box').forEach((box) => {
+      box.addEventListener('mouseenter', () => {
+        animate(box, {
+          scale: [1, 1.12],
+          duration: 350,
+          ease: 'outElastic(1, .4)',
+          autoplay: true,
+        });
+      });
+
+      box.addEventListener('mouseleave', () => {
+        animate(box, {
+          scale: 1,
+          duration: 450,
+          ease: 'outElastic(1, .6)',
+          autoplay: true,
+        });
+      });
+    });
+  }
+
+  // ================================================================
+  //  5. CTA LOGO — continuous gentle pulse
+  // ================================================================
+  function animateCtaLogo() {
+    const logo = document.querySelector('.cta-logo-container');
+    if (!logo) return;
+
+    animate(logo, {
+      scale: [1, 1.05],
+      duration: 2400,
+      alternate: true,
+      loop: true,
+      ease: 'inOutSine',
+      delay: 1200,
+      autoplay: true,
+    });
+  }
+
+  // ================================================================
+  //  6. STORE BUTTON — subtle scale on hover
+  // ================================================================
+  function animateStoreButtons() {
+    document.querySelectorAll('.store-btn').forEach((btn) => {
+      btn.addEventListener('mouseenter', () => {
+        animate(btn, {
+          scale: [1, 1.03],
+          duration: 250,
+          ease: 'outQuad',
+          autoplay: true,
+        });
+      });
+      btn.addEventListener('mouseleave', () => {
+        animate(btn, {
+          scale: 1,
+          duration: 350,
+          ease: 'outQuad',
+          autoplay: true,
+        });
+      });
+    });
+  }
+
+  // ================================================================
+  //  BOOT
+  // ================================================================
+  function boot() {
+    createParticles();
+    requestAnimationFrame(() => {
+      animateHeroLogo();
+      enhanceScrollReveals();
+      animateFeatureCards();
+      animateCtaLogo();
+      animateStoreButtons();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 300));
+  } else {
+    setTimeout(boot, 300);
+  }
+</script>
+
+<style is:global>
+  .reveal {
+    opacity: 0;
+    transform: none;
+    transition: none;
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: none;
+  }
+</style>

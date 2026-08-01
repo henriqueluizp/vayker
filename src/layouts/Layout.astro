@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import '../styles/global.css';
 import AuroraBackground from '../components/AuroraBackground.astro';
+import SiteAnimations from '../components/SiteAnimations.astro';
+import BackToTop from '../components/BackToTop.astro';
 import logoPng from '../assets/logo.png';
 
 interface Props {
@@ -17,14 +19,12 @@ const {
 const canonicalURL = new URL(Astro.url.pathname, 'https://vayker.com');
 
 const nav = [
-  { href: '/', label: 'Início' },
   { href: '/termos', label: 'Termos de Uso' },
   { href: '/privacidade', label: 'Privacidade' },
 ];
 
 const footerLinks = {
   produto: [
-    { href: '/', label: 'Início' },
     { href: '#features', label: 'Funcionalidades' },
     { href: '#showcase', label: 'App' },
   ],
@@ -212,5 +212,8 @@ const currentYear = new Date().getFullYear();
         </div>
       </div>
     </footer>
+
+    <SiteAnimations />
+    <BackToTop />
   </body>
 </html>

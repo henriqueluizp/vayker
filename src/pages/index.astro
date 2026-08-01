@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import GlassCard from '../components/GlassCard.astro';
 import PhoneFrame from '../components/PhoneFrame.astro';
+import FlightPath from '../components/FlightPath.astro';
 import homePng from '../assets/home.png';
 import viagemPng from '../assets/viagem.png';
 import financeiroPng from '../assets/financeiro.png';
@@ -89,6 +90,9 @@ const icons: Record<string, string> = {
 ---
 
 <Layout>
+  <!-- Full-page flight path — fixed canvas, scroll-driven airplane -->
+  <FlightPath />
+
   <!-- ============================================================ -->
   <!--  HERO — Brand banner (zero screenshots)                       -->
   <!-- ============================================================ -->
@@ -113,9 +117,9 @@ const icons: Record<string, string> = {
       <!-- Logo -->
       <div class="reveal reveal-delay-1 relative mb-8">
         <!-- Outer glow ring -->
-        <div class="absolute inset-0 -inset-8 rounded-full bg-gradient-to-tr from-violet/20 via-indigo/15 to-cyan/10 blur-2xl"></div>
+        <div class="hero-logo-glow absolute inset-0 -inset-8 rounded-full bg-gradient-to-tr from-violet/20 via-indigo/15 to-cyan/10 blur-2xl"></div>
         <!-- Logo container -->
-        <div class="relative mx-auto flex h-24 w-24 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet via-indigo to-violet p-5 shadow-[0_24px_60px_-20px_rgba(139,92,246,0.7),0_0_120px_-40px_rgba(139,92,246,0.4)] sm:h-28 sm:w-28 sm:rounded-[32px] sm:p-6">
+        <div class="hero-logo-ring relative mx-auto flex h-24 w-24 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet via-indigo to-violet p-5 shadow-[0_24px_60px_-20px_rgba(139,92,246,0.7),0_0_120px_-40px_rgba(139,92,246,0.4)] sm:h-28 sm:w-28 sm:rounded-[32px] sm:p-6">
           <Image
             src={logoPng}
             alt="Vayker"
@@ -147,7 +151,7 @@ const icons: Record<string, string> = {
         {
           stores.map((store) => (
             <button
-              class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]"
+              class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]"
             >
               <span class="text-base">↓</span>
               {store}
@@ -156,39 +160,25 @@ const icons: Record<string, string> = {
           ))
         }
       </div>
-
-      <!-- Stats row -->
-      <div class="reveal reveal-delay-5 mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-muted">
-        <div class="flex items-center gap-1.5">
-          <span class="font-display text-lg font-bold text-ink">100%</span>
-          <span>grátis</span>
-        </div>
-        <span class="h-1 w-1 rounded-full bg-white/10"></span>
-        <div class="flex items-center gap-1.5">
-          <span class="font-display text-lg font-bold text-ink">BR</span>
-          <span>feito no Brasil</span>
-        </div>
-        <span class="h-1 w-1 rounded-full bg-white/10"></span>
-        <div class="flex items-center gap-1.5">
-          <span class="font-display text-lg font-bold text-ink">PIN</span>
-          <span>convite simples</span>
-        </div>
-      </div>
     </div>
 
     <!-- Scroll indicator -->
     <div class="mt-20 flex justify-center sm:mt-24">
-      <div class="scroll-indicator flex flex-col items-center gap-2 text-muted">
+      <button
+        class="scroll-indicator flex flex-col items-center gap-2 text-muted hover:text-ink transition-colors cursor-pointer"
+        onclick="document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })"
+        aria-label="Rolar para o app"
+      >
         <span class="text-xs font-medium tracking-widest uppercase">Role para descobrir</span>
         <span class="scroll-arrow block h-6 w-4 rounded-full border border-white/10"></span>
-      </div>
+      </button>
     </div>
   </section>
 
   <!-- ============================================================ -->
   <!--  APP SHOWCASE                                                 -->
   <!-- ============================================================ -->
-  <section class="px-6 py-16 sm:py-24">
+  <section id="showcase" class="px-6 py-16 sm:py-24">
     <div class="mx-auto max-w-6xl">
       <div class="mb-12 text-center reveal">
         <span class="mb-4 inline-block rounded-full bg-violet/10 px-3 py-1 text-xs font-semibold tracking-wider text-violet uppercase">
@@ -238,7 +228,7 @@ const icons: Record<string, string> = {
         {
           features.map((f, i) => (
             <GlassCard class="group/card p-6 sm:p-8 reveal">
-              <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet/20 to-indigo/20 ring-1 ring-white/[0.06] transition-all duration-300 group-hover/card:from-violet/30 group-hover/card:to-indigo/30 group-hover/card:shadow-[0_0_25px_-6px_rgba(139,92,246,0.3)]">
+              <div class="feature-icon-box mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet/20 to-indigo/20 ring-1 ring-white/[0.06] transition-all duration-300 group-hover/card:from-violet/30 group-hover/card:to-indigo/30 group-hover/card:shadow-[0_0_25px_-6px_rgba(139,92,246,0.3)]">
                 <span class="flex items-center justify-center" set:html={icons[f.icon] || ''} />
               </div>
               <h3 class="font-display text-lg font-semibold text-ink">{f.title}</h3>
@@ -296,7 +286,7 @@ const icons: Record<string, string> = {
     <div class="mx-auto max-w-3xl px-6 py-20 text-center sm:py-28">
       <div class="reveal">
         <!-- Logo glow -->
-        <div class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-violet via-indigo to-violet p-4 shadow-[0_20px_50px_-16px_rgba(139,92,246,0.7),0_0_80px_-20px_rgba(139,92,246,0.3)]">
+        <div class="cta-logo-container mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-violet via-indigo to-violet p-4 shadow-[0_20px_50px_-16px_rgba(139,92,246,0.7),0_0_80px_-20px_rgba(139,92,246,0.3)]">
           <Image
             src={logoPng}
             alt="Vayker"
@@ -318,7 +308,7 @@ const icons: Record<string, string> = {
         <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           {
             stores.map((store) => (
-              <span class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]">
+              <span class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]">
                 <span class="text-base">↓</span>
                 {store}
                 <span class="ml-1 text-xs font-normal text-violet">· em breve</span>
@@ -334,22 +324,3 @@ const icons: Record<string, string> = {
     </div>
   </section>
 </Layout>
-
-<!-- Scroll reveal script -->
-<script>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('revealed');
-          }, i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-  );
-
-  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-</script>
