@@ -1,0 +1,11 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "vayker",
+	"compatibility_date": "2026-08-01",
+	"assets": {
+		"directory": "./dist"
+	},
+	"routes": [
+		{ "pattern": "vayker.com/*", "zone_name": "vayker.com" }
+	]
+}
