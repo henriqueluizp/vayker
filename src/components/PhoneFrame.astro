@@ -1,0 +1,133 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  label?: string;
+  class?: string;
+  rotate?: number;
+}
+
+const {
+  image,
+  alt,
+  label = '',
+  class: className = '',
+  rotate = 0,
+} = Astro.props;
+---
+
+<div
+  class:list={['group phone-wrapper', className]}
+  style={`--rotate: ${rotate}deg;`}
+>
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+      <Image
+        src={image}
+        alt={alt}
+        width={320}
+        height={693}
+        loading="lazy"
+        class="h-full w-full object-cover"
+      />
+    </div>
+  </div>
+  {label && (
+    <p class="phone-label">{label}</p>
+  )}
+</div>
+
+<style>
+  .phone-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transform: rotate(var(--rotate, 0deg));
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .phone-wrapper:hover {
+    transform: rotate(var(--rotate, 0deg)) translateY(-8px) scale(1.02);
+  }
+
+  .phone-frame {
+    position: relative;
+    background: linear-gradient(145deg, #1e1c2e, #16142a);
+    border-radius: 2.5rem;
+    padding: 0.625rem;
+    box-shadow:
+      0 0 0 1.5px rgba(255, 255, 255, 0.08),
+      0 0 0 3px #11101d,
+      0 25px 60px -20px rgba(139, 92, 246, 0.25),
+      0 45px 100px -40px rgba(99, 102, 241, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    width: min(280px, 72vw);
+    transition: box-shadow 0.4s ease;
+  }
+
+  .group:hover .phone-frame {
+    box-shadow:
+      0 0 0 1.5px rgba(255, 255, 255, 0.12),
+      0 0 0 3px #11101d,
+      0 35px 80px -25px rgba(139, 92, 246, 0.4),
+      0 55px 120px -45px rgba(99, 102, 241, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 0.625rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 35%;
+    height: 1.35rem;
+    background: #0b0a14;
+    border-radius: 0 0 0.9rem 0.9rem;
+    z-index: 2;
+  }
+
+  .phone-screen {
+    border-radius: 1.9rem;
+    overflow: hidden;
+    aspect-ratio: 9 / 19.5;
+    background: var(--color-bg, #0b0a14);
+    position: relative;
+  }
+
+  .phone-label {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-muted, #a6a1c2);
+    text-align: center;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .group:hover .phone-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 640px) {
+    .phone-frame {
+      border-radius: 2rem;
+      padding: 0.5rem;
+    }
+    .phone-screen {
+      border-radius: 1.5rem;
+    }
+    .phone-notch {
+      top: 0.5rem;
+      height: 1.1rem;
+      border-radius: 0 0 0.7rem 0.7rem;
+    }
+  }
+</style>
