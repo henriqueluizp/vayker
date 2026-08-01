@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/*
+  Paleta e tipografia ESPELHAM as do app (não inventar uma nova):
+  - Cores: shadcn ColorSchemes.darkSlate.violet (primary #8B5CF6) + os
+    acentos "aurora" de lib/features/auth/widgets/auth_tokens.dart
+    (indigo #6366F1, cyan #22D3EE) sobre o fundo quase-preto que o app usa
+    em dark mode (#0B0A14) — ver auth_background.dart.
+  - Fontes: Bricolage Grotesque no display (títulos) + Geist no corpo,
+    exatamente como lib/core/theme/app_typography.dart.
+*/
+@theme {
+  --color-bg: #0b0a14;
+  --color-bg-soft: #13111f;
+  --color-surface: #17152a;
+  --color-violet: #8b5cf6;
+  --color-indigo: #6366f1;
+  --color-cyan: #22d3ee;
+  --color-ink: #f4f2fb;
+  --color-muted: #a6a1c2;
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

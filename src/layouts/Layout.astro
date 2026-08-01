@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import '../styles/global.css';
+import AuroraBackground from '../components/AuroraBackground.astro';
+import logoPng from '../assets/logo.png';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Vayker — Viaje. Organize. Repita.',
+  description = 'Vayker é o app pra organizar viagens em grupo: itinerário colaborativo, divisão de despesas e acerto de contas automático.',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://vayker.com');
+
+const nav = [
+  { href: '/', label: 'Início' },
+  { href: '/termos', label: 'Termos de Uso' },
+  { href: '/privacidade', label: 'Privacidade' },
+];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://vayker.com/images/logo-bg.png" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body class="min-h-screen font-sans text-ink antialiased">
+    <AuroraBackground />
+
+    <header class="sticky top-0 z-50 border-b border-white/5 bg-bg/70 backdrop-blur-lg">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <a href="/" class="flex items-center gap-2.5">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-[10px] bg-gradient-to-br from-violet via-indigo to-violet p-1.5 shadow-[0_6px_16px_-4px_rgba(139,92,246,0.6)]"
+          >
+            <Image
+              src={logoPng}
+              alt=""
+              width={32}
+              height={32}
+              loading="eager"
+              class="h-full w-full object-contain"
+            />
+          </span>
+          <span class="font-display text-lg font-bold tracking-tight text-ink">
+            Vay<span class="text-violet">Ker</span>
+          </span>
+        </a>
+        <nav class="flex items-center gap-1 text-sm">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  'rounded-full px-4 py-2 font-medium transition-colors',
+                  Astro.url.pathname === item.href
+                    ? 'bg-white/10 text-ink'
+                    : 'text-muted hover:text-ink',
+                ]}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-white/5">
+      <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-10 text-sm text-muted sm:flex-row sm:justify-between">
+        <div class="flex items-center gap-2">
+          <img src="/images/logo.svg" alt="" class="h-5 w-5 opacity-70" />
+          <span>© {new Date().getFullYear()} Vayker. Todos os direitos reservados.</span>
+        </div>
+        <div class="flex gap-6">
+          <a href="/termos" class="hover:text-ink">Termos de Uso</a>
+          <a href="/privacidade" class="hover:text-ink">Privacidade</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

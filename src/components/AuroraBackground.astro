@@ -1,0 +1,91 @@
+---
+// Versão CSS do pano de fundo "aurora" do app
+// (lib/features/auth/widgets/auth_background.dart): blobs radiais suaves
+// nas cores da marca, à deriva lenta, com blend aditivo pra ficar luminoso
+// sobre o fundo quase-preto. Esta é a assinatura visual do app — reaproveitar
+// aqui em vez de inventar um novo pano de fundo pro site.
+---
+
+<div class="aurora" aria-hidden="true">
+  <span class="blob blob--violet"></span>
+  <span class="blob blob--indigo"></span>
+  <span class="blob blob--cyan"></span>
+  <span class="blob blob--violet-2"></span>
+</div>
+
+<style>
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .blob {
+    position: absolute;
+    width: 70vmax;
+    height: 70vmax;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+
+  .blob--violet {
+    top: -20%;
+    left: -15%;
+    background: radial-gradient(circle, var(--color-violet), transparent 70%);
+    animation: drift-a 24s ease-in-out infinite;
+  }
+
+  .blob--indigo {
+    top: -25%;
+    right: -20%;
+    background: radial-gradient(circle, var(--color-indigo), transparent 70%);
+    animation: drift-b 28s ease-in-out infinite;
+  }
+
+  .blob--cyan {
+    bottom: -25%;
+    right: -15%;
+    width: 60vmax;
+    height: 60vmax;
+    background: radial-gradient(circle, var(--color-cyan), transparent 70%);
+    animation: drift-a 26s ease-in-out infinite reverse;
+  }
+
+  .blob--violet-2 {
+    bottom: -20%;
+    left: -20%;
+    background: radial-gradient(circle, #a855f7, transparent 70%);
+    animation: drift-b 22s ease-in-out infinite reverse;
+  }
+
+  @keyframes drift-a {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(6%, 8%) scale(1.08);
+    }
+  }
+
+  @keyframes drift-b {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-7%, 6%) scale(1.05);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob {
+      animation: none;
+    }
+  }
+</style>

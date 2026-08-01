@@ -1,0 +1,18 @@
+---
+// Espelha o GlassCard do app (lib/features/auth/widgets/auth_background.dart):
+// vidro fosco, borda translúcida, sombra suave colorida pelo primary.
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'rounded-3xl border border-white/10 bg-white/[0.06] shadow-[0_20px_50px_-25px_rgba(139,92,246,0.35)] backdrop-blur-xl',
+    className,
+  ]}
+>
+  <slot />
+</div>

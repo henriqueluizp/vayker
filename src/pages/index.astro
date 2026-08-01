@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import GlassCard from '../components/GlassCard.astro';
+import logoPng from '../assets/logo.png';
+
+const features = [
+  {
+    title: 'Roteiro colaborativo',
+    description:
+      'Paradas, dias e atividades — todo mundo do grupo vê e edita o mesmo itinerário, sem "me manda de novo o roteiro".',
+  },
+  {
+    title: 'Divisão de despesas',
+    description:
+      'Registra quem pagou o quê e o Vayker calcula o saldo de cada participante — e sugere quem deve pagar quem.',
+  },
+  {
+    title: 'Convite por PIN',
+    description:
+      'Compartilha um código de 6 dígitos com o grupo pra entrar na viagem. Sem link que expira, sem convite perdido no chat.',
+  },
+];
+
+const stores = ['App Store', 'Google Play'];
+---
+
+<Layout>
+  <!-- Hero -->
+  <section class="px-6 pt-20 pb-24 text-center sm:pt-28 sm:pb-32">
+    <div class="mx-auto max-w-2xl">
+      <div
+        class="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet via-indigo to-violet p-3 shadow-[0_16px_40px_-12px_rgba(139,92,246,0.6)]"
+      >
+        <Image
+          src={logoPng}
+          alt="Vayker"
+          width={64}
+          height={64}
+          loading="eager"
+          fetchpriority="high"
+          class="h-full w-full object-contain"
+        />
+      </div>
+
+      <h1 class="font-display text-4xl leading-[1.1] font-extrabold tracking-tight text-ink sm:text-6xl">
+        Viaje. Organize.<br />Repita.
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-lg text-lg text-muted">
+        Vayker é o app pra organizar viagens em grupo: itinerário
+        colaborativo, registro de gastos e divisão de despesas entre
+        participantes — tudo no mesmo lugar.
+      </p>
+
+      <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        {
+          stores.map((store) => (
+            <span class="rounded-full border border-white/10 bg-white/[0.06] px-5 py-2.5 text-sm font-medium text-muted backdrop-blur-xl">
+              {store} <span class="text-violet">· em breve</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="px-6 pb-28">
+    <div class="mx-auto grid max-w-6xl gap-5 sm:grid-cols-3">
+      {
+        features.map((f) => (
+          <GlassCard class="p-8">
+            <h3 class="font-display text-lg font-semibold text-ink">{f.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{f.description}</p>
+          </GlassCard>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-white/5">
+    <div class="mx-auto max-w-2xl px-6 py-20 text-center">
+      <h2 class="font-display text-2xl font-bold text-ink sm:text-3xl">
+        A próxima viagem em grupo começa aqui.
+      </h2>
+      <p class="mx-auto mt-3 max-w-md text-muted">
+        Estamos com o app em fase final antes do lançamento nas lojas.
+        Volte em breve pra baixar.
+      </p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        {
+          stores.map((store) => (
+            <span class="rounded-full border border-white/10 bg-white/[0.06] px-5 py-2.5 text-sm font-medium text-muted backdrop-blur-xl">
+              {store} <span class="text-violet">· em breve</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

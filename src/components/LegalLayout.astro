@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GlassCard from './GlassCard.astro';
+
+interface Props {
+  title: string;
+  updatedAt: string;
+}
+
+const { title, updatedAt } = Astro.props;
+---
+
+<Layout title={`${title} — Vayker`}>
+  <div class="mx-auto max-w-3xl px-6 py-16 sm:py-24">
+    <h1 class="font-display text-3xl font-bold text-ink sm:text-4xl">{title}</h1>
+    <p class="mt-2 text-sm text-muted">Última atualização: {updatedAt}</p>
+
+    <GlassCard
+      class="prose prose-invert mt-10 max-w-none p-8 prose-headings:font-display prose-headings:text-ink prose-p:text-muted prose-li:text-muted prose-a:text-violet prose-strong:text-ink sm:p-12"
+    >
+      <slot />
+    </GlassCard>
+  </div>
+</Layout>
