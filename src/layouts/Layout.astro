@@ -51,6 +51,15 @@ const nav = [
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Vayker',
+      url: 'https://vayker.com',
+      logo: 'https://vayker.com/images/logo-bg.png',
+      description,
+    })} />
   </head>
   <body class="min-h-screen font-sans text-ink antialiased">
     <AuroraBackground />
