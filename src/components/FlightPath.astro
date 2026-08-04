@@ -311,20 +311,24 @@
     let currentProgress = 0;
     let needsDraw = true;
 
+    const ctx = canvas.getContext('2d');
+    let w = 0, h = 0;
+
     calcWaypoints();
 
-    function setup() {
+    // Only touches layout (getBoundingClientRect + canvas.width/height) on
+    // init/resize — doing it every frame forced a reflow on every scroll tick.
+    function measure() {
       const rect = canvas.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
       // DPR=1 — decorative element, retina is wasteful here
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      const ctx = canvas.getContext('2d');
-      return { ctx, w: rect.width, h: rect.height };
+      canvas.width = w;
+      canvas.height = h;
     }
 
     function drawFrame() {
       if (!needsDraw) return;
-      const { ctx, w, h } = setup();
       draw(ctx, w, h, currentProgress, ambientPhase);
       needsDraw = false;
     }
@@ -357,6 +361,7 @@
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
+        measure();
         calcWaypoints();
         needsDraw = true;
         drawFrame();
@@ -364,6 +369,7 @@
     });
 
     // Initial draw
+    measure();
     onScroll();
     startAmbient();
 

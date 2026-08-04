@@ -5,33 +5,33 @@ import AuroraBackground from '../components/AuroraBackground.astro';
 import SiteAnimations from '../components/SiteAnimations.astro';
 import BackToTop from '../components/BackToTop.astro';
 import logoPng from '../assets/logo.png';
+import { getAlternateLangPath, getLangFromUrl, useTranslations } from '../i18n/ui';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const {
-  title = 'Vayker — Viaje. Organize. Repita.',
-  description = 'Vayker é o app pra organizar viagens em grupo: itinerário colaborativo, divisão de despesas e acerto de contas automático.',
-} = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const altLangPath = getAlternateLangPath(Astro.url);
+
+const { title = t('meta.title'), description = t('meta.description') } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, 'https://vayker.com');
 
-const nav = [
-  { href: '/termos', label: 'Termos de Uso' },
-  { href: '/privacidade', label: 'Privacidade' },
-];
+const legalPath =
+  lang === 'en' ? { terms: '/en/terms', privacy: '/en/privacy' } : { terms: '/termos', privacy: '/privacidade' };
 
 const footerLinks = {
   produto: [
-    { href: '#features', label: 'Funcionalidades' },
-    { href: '#showcase', label: 'App' },
+    { href: '#features', label: t('footer.features') },
+    { href: '#showcase', label: t('footer.app') },
   ],
   empresa: [
-    { href: '/termos', label: 'Termos de Uso' },
-    { href: '/privacidade', label: 'Privacidade' },
-    { href: 'mailto:app.vayker@gmail.com', label: 'Contato' },
+    { href: legalPath.terms, label: t('footer.terms') },
+    { href: legalPath.privacy, label: t('footer.privacy') },
+    { href: 'mailto:app.vayker@gmail.com', label: t('footer.contact') },
   ],
 };
 
@@ -39,7 +39,7 @@ const currentYear = new Date().getFullYear();
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang={lang === 'en' ? 'en' : 'pt-BR'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,9 +50,17 @@ const currentYear = new Date().getFullYear();
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap"
+      />
+    </noscript>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -88,7 +96,7 @@ const currentYear = new Date().getFullYear();
     <!-- Nav -->
     <header class="sticky top-0 z-50 border-b border-white/[0.04] bg-bg/70 backdrop-blur-xl">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
-        <a href="/" class="flex items-center gap-2.5 transition-opacity hover:opacity-90">
+        <a href={lang === 'en' ? '/en' : '/'} class="flex items-center gap-2.5 transition-opacity hover:opacity-90">
           <span
             class="flex h-8 w-8 items-center justify-center rounded-[10px] bg-gradient-to-br from-violet via-indigo to-violet p-1.5 shadow-[0_6px_16px_-4px_rgba(139,92,246,0.6)]"
           >
@@ -105,23 +113,12 @@ const currentYear = new Date().getFullYear();
             Vay<span class="text-violet">Ker</span>
           </span>
         </a>
-        <nav class="flex items-center gap-1 text-sm">
-          {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class:list={[
-                  'rounded-full px-4 py-2 font-medium transition-all duration-200',
-                  Astro.url.pathname === item.href
-                    ? 'bg-white/10 text-ink shadow-sm'
-                    : 'text-muted hover:bg-white/[0.04] hover:text-ink',
-                ]}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
+        <a
+          href={altLangPath}
+          class="rounded-full border border-white/10 px-3.5 py-1.5 text-sm font-medium text-muted transition-colors hover:border-violet/30 hover:text-ink"
+        >
+          {t('lang.switchTo')}
+        </a>
       </div>
     </header>
 
@@ -135,7 +132,7 @@ const currentYear = new Date().getFullYear();
         <div class="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <!-- Brand -->
           <div class="lg:col-span-1">
-            <a href="/" class="flex items-center gap-2.5">
+            <a href={lang === 'en' ? '/en' : '/'} class="flex items-center gap-2.5">
               <span
                 class="flex h-8 w-8 items-center justify-center rounded-[10px] bg-gradient-to-br from-violet via-indigo to-violet p-1.5 shadow-[0_6px_16px_-4px_rgba(139,92,246,0.6)]"
               >
@@ -153,13 +150,13 @@ const currentYear = new Date().getFullYear();
               </span>
             </a>
             <p class="mt-4 text-sm leading-relaxed text-muted">
-              O app pra organizar viagens em grupo sem estresse. Roteiro, gastos e convite por PIN — tudo num só lugar.
+              {t('footer.tagline')}
             </p>
           </div>
 
           <!-- Produto -->
           <div>
-            <h4 class="mb-4 font-display text-sm font-semibold text-ink">Produto</h4>
+            <h4 class="mb-4 font-display text-sm font-semibold text-ink">{t('footer.product')}</h4>
             <ul class="flex flex-col gap-2.5">
               {footerLinks.produto.map((link) => (
                 <li>
@@ -173,7 +170,7 @@ const currentYear = new Date().getFullYear();
 
           <!-- Empresa -->
           <div>
-            <h4 class="mb-4 font-display text-sm font-semibold text-ink">Empresa</h4>
+            <h4 class="mb-4 font-display text-sm font-semibold text-ink">{t('footer.company')}</h4>
             <ul class="flex flex-col gap-2.5">
               {footerLinks.empresa.map((link) => (
                 <li>
@@ -187,27 +184,27 @@ const currentYear = new Date().getFullYear();
 
           <!-- Status -->
           <div>
-            <h4 class="mb-4 font-display text-sm font-semibold text-ink">Status</h4>
+            <h4 class="mb-4 font-display text-sm font-semibold text-ink">{t('footer.status')}</h4>
             <div class="flex items-center gap-2">
               <span class="relative flex h-2 w-2">
                 <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet opacity-75"></span>
                 <span class="relative inline-flex h-2 w-2 rounded-full bg-violet"></span>
               </span>
-              <span class="text-sm text-muted">Em desenvolvimento</span>
+              <span class="text-sm text-muted">{t('footer.statusLine')}</span>
             </div>
             <p class="mt-3 text-sm text-muted">
-              App Store e Google Play em breve.
+              {t('footer.statusSub')}
             </p>
           </div>
         </div>
 
         <!-- Bottom bar -->
         <div class="mt-12 flex flex-col items-center gap-4 border-t border-white/[0.04] pt-8 text-sm text-muted sm:flex-row sm:justify-between">
-          <p>© {currentYear} Vayker. Todos os direitos reservados.</p>
+          <p>© {currentYear} Vayker. {t('footer.rights')}</p>
           <div class="flex gap-6">
-            <a href="/termos" class="transition-colors hover:text-ink">Termos de Uso</a>
-            <a href="/privacidade" class="transition-colors hover:text-ink">Privacidade</a>
-            <a href="mailto:app.vayker@gmail.com" class="transition-colors hover:text-ink">Contato</a>
+            {footerLinks.empresa.map((link) => (
+              <a href={link.href} class="transition-colors hover:text-ink">{link.label}</a>
+            ))}
           </div>
         </div>
       </div>

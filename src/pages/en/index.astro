@@ -1,0 +1,329 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import GlassCard from '../../components/GlassCard.astro';
+import PhoneFrame from '../../components/PhoneFrame.astro';
+import FlightPath from '../../components/FlightPath.astro';
+import homePng from '../../assets/home.png';
+import viagemPng from '../../assets/viagem.png';
+import financeiroPng from '../../assets/financeiro.png';
+import logoPng from '../../assets/logo.png';
+
+const features = [
+  {
+    icon: 'map',
+    title: 'Collaborative itinerary',
+    description:
+      "Build and edit the itinerary with your whole group in real time. Every stop, activity and time — visible to everyone, all the time.",
+  },
+  {
+    icon: 'wallet',
+    title: 'Smart expense splitting',
+    description:
+      'Log each expense and Vayker automatically works out who owes whom. No more spreadsheets and confusion at the end of the trip.',
+  },
+  {
+    icon: 'key',
+    title: 'PIN invites',
+    description:
+      "Share a 6-digit code and that's it. No links that expire, no invites lost in the group chat mess.",
+  },
+  {
+    icon: 'sync',
+    title: 'Real-time sync',
+    description:
+      'Any change shows up instantly for every participant. No refreshing, no "can you check again for me?".',
+  },
+  {
+    icon: 'sparkle',
+    title: 'Premium interface',
+    description:
+      'A dark, modern, fluid design — built to be beautiful and easy to use, even in the middle of the fun chaos of a trip.',
+  },
+  {
+    icon: 'stack',
+    title: 'Everything in one place',
+    description:
+      'Itinerary, expenses, participants and photos, all centralized in one app. Goodbye ten open tabs and three different group chats.',
+  },
+];
+
+const steps = [
+  {
+    number: 1,
+    title: 'Create your trip',
+    description: "Set the destination and dates in seconds. As quick as packing your bag — minus the stress.",
+  },
+  {
+    number: 2,
+    title: 'Invite the group',
+    description: 'Share the 6-digit PIN with your friends. Anyone with the code gets in right away, no hassle.',
+  },
+  {
+    number: 3,
+    title: 'Plan together',
+    description: 'Build the itinerary with stops, times and activities. Everyone sees and edits it — real collaboration.',
+  },
+  {
+    number: 4,
+    title: 'Split the expenses',
+    description: 'Log each expense as you go. At the end, the app shows exactly who owes what to whom.',
+  },
+];
+
+const showcaseItems = [
+  { image: homePng, alt: 'Vayker home screen', label: 'Home', rotate: -2 },
+  { image: viagemPng, alt: 'Trip itinerary in Vayker', label: 'Itinerary', rotate: 1 },
+  { image: financeiroPng, alt: 'Expense splitting in Vayker', label: 'Expenses', rotate: -1 },
+];
+
+const stores = ['App Store', 'Google Play'];
+
+const icons: Record<string, string> = {
+  map: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`,
+  wallet: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M16 14h.01"/><circle cx="16" cy="14" r="1.5"/></svg>`,
+  key: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="14" r="5"/><path d="M12 10l7-7"/><path d="M16.5 5.5L19 3"/><path d="M22 3l-2.5 2.5"/></svg>`,
+  sync: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 22v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L21 8"/><path d="M20.49 15a9 9 0 01-14.85 3.36L3 16"/></svg>`,
+  sparkle: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.5 6.5L21 9l-6.5 2.5L12 18l-2.5-6.5L3 9l6.5-2.5z"/></svg>`,
+  stack: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+};
+---
+
+<Layout
+  title="Vayker — Travel. Organize. Repeat."
+  description="Vayker is the app for organizing group trips: collaborative itineraries, expense splitting and automatic settling up."
+>
+  <!-- Full-page flight path — fixed canvas, scroll-driven airplane -->
+  <FlightPath />
+
+  <!-- ============================================================ -->
+  <!--  HERO — Brand banner (zero screenshots)                       -->
+  <!-- ============================================================ -->
+  <section class="relative overflow-hidden px-6 pt-16 pb-8 sm:pt-28 sm:pb-12 lg:pt-36 lg:pb-16">
+    <!-- Decorative background lines -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.03]" aria-hidden="true">
+      <div class="absolute top-0 left-1/2 h-full w-px bg-gradient-to-b from-transparent via-violet to-transparent"></div>
+      <div class="absolute top-0 left-[20%] h-full w-px bg-gradient-to-b from-transparent via-indigo/50 to-transparent"></div>
+      <div class="absolute top-0 right-[20%] h-full w-px bg-gradient-to-b from-transparent via-cyan/30 to-transparent"></div>
+    </div>
+
+    <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
+      <!-- Status badge -->
+      <div class="reveal mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 backdrop-blur-xl">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-violet"></span>
+        </span>
+        <span class="text-xs font-medium text-muted">In development — launching soon</span>
+      </div>
+
+      <!-- Logo -->
+      <div class="reveal reveal-delay-1 relative mb-8">
+        <!-- Outer glow ring -->
+        <div class="hero-logo-glow absolute inset-0 -inset-8 rounded-full bg-gradient-to-tr from-violet/20 via-indigo/15 to-cyan/10 blur-2xl"></div>
+        <!-- Logo container -->
+        <div class="hero-logo-ring relative mx-auto flex h-24 w-24 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet via-indigo to-violet p-5 shadow-[0_24px_60px_-20px_rgba(139,92,246,0.7),0_0_120px_-40px_rgba(139,92,246,0.4)] sm:h-28 sm:w-28 sm:rounded-[32px] sm:p-6">
+          <Image
+            src={logoPng}
+            alt="Vayker"
+            width={112}
+            height={112}
+            loading="eager"
+            fetchpriority="high"
+            class="h-full w-full object-contain"
+          />
+        </div>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="reveal reveal-delay-2 font-display text-4xl leading-[1.08] font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl">
+        Your group trip,<br />
+        <span class="bg-gradient-to-r from-violet via-indigo to-cyan bg-clip-text text-transparent">
+          organized for real.
+        </span>
+      </h1>
+
+      <!-- Subtext -->
+      <p class="reveal reveal-delay-3 mx-auto mt-6 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
+        Collaborative itinerary, automatic expense splitting and PIN invites.
+        The app that turns the chaos of group travel into memories worth keeping.
+      </p>
+
+      <!-- Store badges -->
+      <div class="reveal reveal-delay-4 mt-8 flex flex-col items-center gap-3 sm:flex-row">
+        {
+          stores.map((store) => (
+            <button
+              class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]"
+            >
+              <span class="text-base">↓</span>
+              {store}
+              <span class="ml-1 text-xs font-normal text-violet">· coming soon</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="mt-20 flex justify-center sm:mt-24">
+      <button
+        class="scroll-indicator flex flex-col items-center gap-2 text-muted hover:text-ink transition-colors cursor-pointer"
+        onclick="document.getElementById('showcase')?.scrollIntoView({ behavior: 'smooth' })"
+        aria-label="Scroll to app"
+      >
+        <span class="text-xs font-medium tracking-widest uppercase">Scroll to explore</span>
+        <span class="scroll-arrow block h-6 w-4 rounded-full border border-white/10"></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  APP SHOWCASE                                                 -->
+  <!-- ============================================================ -->
+  <section id="showcase" class="px-6 py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-12 text-center reveal">
+        <span class="mb-4 inline-block rounded-full bg-violet/10 px-3 py-1 text-xs font-semibold tracking-wider text-violet uppercase">
+          Inside the app
+        </span>
+        <h2 class="font-display text-3xl font-bold text-ink sm:text-4xl">
+          Beautiful inside and out
+        </h2>
+        <p class="mx-auto mt-3 max-w-md text-muted">
+          Every screen was designed with the same care you put into planning your next trip.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-start justify-center gap-6 sm:gap-10 lg:gap-14 reveal">
+        {
+          showcaseItems.map((item) => (
+            <PhoneFrame
+              image={item.image}
+              alt={item.alt}
+              label={item.label}
+              rotate={item.rotate}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  FEATURES                                                     -->
+  <!-- ============================================================ -->
+  <section class="border-t border-white/[0.04] px-6 py-16 sm:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-14 text-center reveal">
+        <span class="mb-4 inline-block rounded-full bg-indigo/10 px-3 py-1 text-xs font-semibold tracking-wider text-indigo uppercase">
+          Features
+        </span>
+        <h2 class="font-display text-3xl font-bold text-ink sm:text-4xl">
+          Everything you need to travel as a group
+        </h2>
+        <p class="mx-auto mt-3 max-w-lg text-muted">
+          No spreadsheets, no lost messages, no "wait, who paid for what again?". Vayker's got it.
+        </p>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          features.map((f, i) => (
+            <GlassCard class="group/card p-6 sm:p-8 reveal">
+              <div class="feature-icon-box mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet/20 to-indigo/20 ring-1 ring-white/[0.06] transition-all duration-300 group-hover/card:from-violet/30 group-hover/card:to-indigo/30 group-hover/card:shadow-[0_0_25px_-6px_rgba(139,92,246,0.3)]">
+                <span class="flex items-center justify-center" set:html={icons[f.icon] || ''} />
+              </div>
+              <h3 class="font-display text-lg font-semibold text-ink">{f.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{f.description}</p>
+            </GlassCard>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  HOW IT WORKS                                                 -->
+  <!-- ============================================================ -->
+  <section class="border-t border-white/[0.04] px-6 py-16 sm:py-24">
+    <div class="mx-auto max-w-4xl">
+      <div class="mb-14 text-center reveal">
+        <span class="mb-4 inline-block rounded-full bg-cyan/10 px-3 py-1 text-xs font-semibold tracking-wider text-cyan uppercase">
+          How it works
+        </span>
+        <h2 class="font-display text-3xl font-bold text-ink sm:text-4xl">
+          From chaos to organized in 4 steps
+        </h2>
+      </div>
+
+      <div class="relative">
+        <!-- Vertical line (desktop) -->
+        <div class="absolute top-0 bottom-0 left-[19px] hidden w-px bg-gradient-to-b from-violet/60 via-indigo/40 to-transparent sm:block"></div>
+
+        <div class="flex flex-col gap-8 sm:gap-6">
+          {
+            steps.map((step, i) => (
+              <div class="flex gap-5 reveal sm:gap-8">
+                <!-- Step number -->
+                <div class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet to-indigo text-sm font-bold text-white shadow-[0_8px_25px_-8px_rgba(139,92,246,0.5)] sm:h-12 sm:w-12 sm:text-base">
+                  {step.number}
+                </div>
+                <!-- Content -->
+                <GlassCard class="flex-1 p-5 sm:p-6">
+                  <h3 class="font-display text-base font-semibold text-ink sm:text-lg">{step.title}</h3>
+                  <p class="mt-1.5 text-sm leading-relaxed text-muted">{step.description}</p>
+                </GlassCard>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!--  CTA                                                          -->
+  <!-- ============================================================ -->
+  <section class="border-t border-white/[0.04]">
+    <div class="mx-auto max-w-3xl px-6 py-20 text-center sm:py-28">
+      <div class="reveal">
+        <!-- Logo glow -->
+        <div class="cta-logo-container mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-violet via-indigo to-violet p-4 shadow-[0_20px_50px_-16px_rgba(139,92,246,0.7),0_0_80px_-20px_rgba(139,92,246,0.3)]">
+          <Image
+            src={logoPng}
+            alt="Vayker"
+            width={80}
+            height={80}
+            loading="lazy"
+            class="h-full w-full object-contain"
+          />
+        </div>
+
+        <h2 class="font-display text-3xl font-bold text-ink sm:text-4xl lg:text-5xl">
+          Your next group trip<br />starts here.
+        </h2>
+
+        <p class="mx-auto mt-4 max-w-md text-muted sm:text-lg">
+          We're in the final stretch of development. Vayker is coming soon to the App Store and Google Play.
+        </p>
+
+        <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          {
+            stores.map((store) => (
+              <span class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]">
+                <span class="text-base">↓</span>
+                {store}
+                <span class="ml-1 text-xs font-normal text-violet">· coming soon</span>
+              </span>
+            ))
+          }
+        </div>
+
+        <p class="mt-6 text-xs text-muted/60">
+          Keep an eye out — or drop us an email: <a href="mailto:app.vayker@gmail.com" class="text-violet hover:underline">app.vayker@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
