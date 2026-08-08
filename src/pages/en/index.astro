@@ -8,6 +8,7 @@ import homePng from '../../assets/home.png';
 import viagemPng from '../../assets/viagem.png';
 import financeiroPng from '../../assets/financeiro.png';
 import logoPng from '../../assets/logo.png';
+import appStoreBadge from '../../assets/app-store-badge-en.svg';
 
 const features = [
   {
@@ -77,8 +78,6 @@ const showcaseItems = [
   { image: financeiroPng, alt: 'Expense splitting in Vayker', label: 'Expenses', rotate: -1 },
 ];
 
-const stores = ['App Store', 'Google Play'];
-
 const icons: Record<string, string> = {
   map: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`,
   wallet: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M16 14h.01"/><circle cx="16" cy="14" r="1.5"/></svg>`,
@@ -114,7 +113,7 @@ const icons: Record<string, string> = {
           <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet opacity-75"></span>
           <span class="relative inline-flex h-2 w-2 rounded-full bg-violet"></span>
         </span>
-        <span class="text-xs font-medium text-muted">In development — launching soon</span>
+        <span class="text-xs font-medium text-muted">Now available on the App Store</span>
       </div>
 
       <!-- Logo -->
@@ -151,17 +150,19 @@ const icons: Record<string, string> = {
 
       <!-- Store badges -->
       <div class="reveal reveal-delay-4 mt-8 flex flex-col items-center gap-3 sm:flex-row">
-        {
-          stores.map((store) => (
-            <button
-              class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]"
-            >
-              <span class="text-base">↓</span>
-              {store}
-              <span class="ml-1 text-xs font-normal text-violet">· coming soon</span>
-            </button>
-          ))
-        }
+        <a
+          href="https://apps.apple.com/br/app/vayker/id6780531231?l=en-GB"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="store-btn transition-transform duration-300 hover:scale-[1.03]"
+        >
+          <img src={appStoreBadge.src} alt="Download on the App Store" width={120} height={40} class="h-11 w-auto" />
+        </a>
+        <span class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300">
+          <span class="text-base">↓</span>
+          Google Play
+          <span class="ml-1 text-xs font-normal text-violet">· coming soon</span>
+        </span>
       </div>
     </div>
 
@@ -305,19 +306,23 @@ const icons: Record<string, string> = {
         </h2>
 
         <p class="mx-auto mt-4 max-w-md text-muted sm:text-lg">
-          We're in the final stretch of development. Vayker is coming soon to the App Store and Google Play.
+          Vayker is available now on the App Store. Google Play coming soon.
         </p>
 
         <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          {
-            stores.map((store) => (
-              <span class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300 hover:border-violet/30 hover:bg-white/[0.10] hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.3)]">
-                <span class="text-base">↓</span>
-                {store}
-                <span class="ml-1 text-xs font-normal text-violet">· coming soon</span>
-              </span>
-            ))
-          }
+          <a
+            href="https://apps.apple.com/br/app/vayker/id6780531231?l=en-GB"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="store-btn transition-transform duration-300 hover:scale-[1.03]"
+          >
+            <img src={appStoreBadge.src} alt="Download on the App Store" width={120} height={40} class="h-12 w-auto" />
+          </a>
+          <span class="store-btn inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-ink backdrop-blur-xl transition-all duration-300">
+            <span class="text-base">↓</span>
+            Google Play
+            <span class="ml-1 text-xs font-normal text-violet">· coming soon</span>
+          </span>
         </div>
 
         <p class="mt-6 text-xs text-muted/60">
